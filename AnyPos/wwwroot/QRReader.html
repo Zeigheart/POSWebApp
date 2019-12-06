@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<style>
+    video {
+        height: 100vh;
+        width: 100%;
+        object-fit: fill;
+        position: absolute;
+    }
+</style>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="instascan.min.js"></script>
+</head>
+
+
+<body>
+    <video id="preview"></video>
+    <script type="text/javascript">
+        console.log('Initialize Instascan');
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+        scanner.addListener('scan', function (content) {
+            //console.log(content);
+            //alert(content);
+            var itemIsAdd = window.opener.getQRResult(content);
+            //window.returnValue = content;
+            if (itemIsAdd) {
+                var res = confirm("Item has been add to cart, do you want continue scan?");
+                if (!res)
+                    window.close();
+            }
+
+        });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                console.log('Start scan');
+                var selectedCam = cameras[0];
+                for (index = 0; index < cameras.length; ++index) {
+                    if (cameras[index].name.indexOf('back') != -1) {
+                        selectedCam = cameras[index];
+                        break;
+                    }
+                }
+                scanner.start(selectedCam);
+            } else {
+                console.error('No cameras found.');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    </script>
+</body>
+    </html >
