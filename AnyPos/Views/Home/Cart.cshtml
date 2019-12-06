@@ -1,0 +1,767 @@
+﻿
+@model AnyPos.Models.DropdownViewModel
+@{
+    //ViewBag.Title = "Bootstrap Style Dropdown";
+}
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>*@
+<style>
+    /*.dropdown {
+        margin: 20px;
+    }
+
+    .dropdown-menu {
+        max-height: 20rem;
+        overflow-y: auto;
+    }*/
+
+    .bootstrap-select .dropdown-menu > li > a small.muted {
+        display: none;
+    }
+
+    .bootstrap-select .dropdown-toggle .filter-option {
+        position: relative;
+        padding-left: 0px;
+    }
+
+        .bootstrap-select .dropdown-toggle .filter-option:before {
+            content: "";
+            font-size: 14px;
+            font-weight: 700;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+</style>
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<div class="colorlib-loader"></div>
+<div id="page">
+
+    <aside id="colorlib-hero" class="breadcrumbs">
+        <div class="flexslider">
+            <ul class="slides">
+                <li style="background-image: url(../images/cover-img-1.jpg);">
+                    <div class="overlay"></div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12 slider-text">
+                                <div class="slider-text-inner text-center">
+                                    <h1>Shopping Cart</h1>
+                                    <h2 class="bread"><span><a href="index.html">Home</a></span> <span><a href="shop.html">Product</a></span> <span>Shopping Cart</span></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <div class="colorlib-shop">
+        <div class="container">
+            <div class="row row-pb-md">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="process-wrap">
+                        <div class="process text-center active">
+                            <p><span>01</span></p>
+                            <h3>Shopping Cart</h3>
+                        </div>
+                        <div class="process text-center">
+                            <p><span>02</span></p>
+                            <h3>Checkout</h3>
+                        </div>
+                        <div class="process text-center">
+                            <p><span>03</span></p>
+                            <h3>Order Complete</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-pb-md">
+                <div id="productItems_div" class="col-md-10 col-md-offset-1">
+                    <div class="product-name">
+                        <div class="one-forth text-center">
+                            <span>
+                                Product filter :
+                            </span>
+                        </div>
+                        <div class="dropdown text-right">
+                            <span>
+                                    @Html.DropDownListFor(m => m.SelectedProductId, this.ViewBag.ProductList as SelectList,
+                                new {
+                                    @class = "form-control selectpicker",
+                                    @Value = @Model.SelectedProductId
+                                    //data_show_subtext = "true",
+                                    //data_live_search = "true"
+                                })
+                                </span>
+                            @*<span>
+                                <button class="btn btn-secondary dropdown-toggle text-right" type="button" id="dropdown_coins" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    [Select product]
+                                </button>
+                                <div id="menu" class="dropdown-menu text-right" aria-labelledby="dropdown_coins">
+                                    <form class="px-4 py-2">
+                                        <input type="search" class="form-control text-right" id="searchCoin" placeholder="" autofocus="autofocus">
+                                    </form>
+                                    <div id="menuItems"></div>
+                                    <div id="empty" class="dropdown-header">No product found</div>
+                                </div>
+                            </span>*@
+                        </div>
+                        @*<button id="btn-qrscan" type="button" class="btn btn-info">
+                                <span class="glyphicon glyphicon-qrcode"></span>
+                            </button>
+                            <button id="btn-add" type="button" class="btn btn-info">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>*@
+                        <div class="text-right">
+                            <button id="btn-qrscan" type="button" class="btn btn-info" onclick="showQRPopup('../QRReader.html');">
+                                <span class="glyphicon glyphicon-qrcode" ></span>
+                            </button>
+                            <button id="btn-add" type="button" class="btn btn-info">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+
+                    </div>
+                </div>
+
+                <div id="cartItems" class="col-md-10 col-md-offset-1">
+                    <div class="product-name">
+                        <div class="one-forth text-center">
+                            <span>Product Details</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Price</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Quantity</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Total</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Remove</span>
+                        </div>
+                    </div>
+
+
+                    <!-- <div id="cartItem_item0" class="product-cart">
+                            <div class="one-forth">
+                                @*<div class="product-img" style="background-image: url(../images/item-6-a.jpg); width:24px ;height:32px">
+                                </div>*@
+                                <div class="display-tc text-left">
+                                    <table><tr>
+                                            <td>
+                                                <img src="../images/item-6-a.jpg" width="64" height="68" />
+                                            </td>
+                                            <td>
+                                                <h3>Product Name</h3>
+                                            </td></tr>
+                                    </table>
+
+                                    @*<h3>Product Name</h3>*@
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <span id="price_item0" class="price">$68.00</span>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <input type="number" pattern="\d+" id="quantity_item0" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100" onchange="cartUnitChange('item0')">
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <span id="total_item0" class="price">$68.00</span>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <a href="javascript:void(0)" class="closed" onclick="removeFromCart('item0')"></a>
+                                    @*<button type="button" class="close" aria-label="" onclick="removeFromCart('item0')">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>*@
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- <div class="product-cart">
+                            <div class="one-forth">
+                                <div class="product-img" style="background-image: url(../images/item-7-a.jpg);">
+                                </div>
+                                <div class="display-tc">
+                                    <h3>Product Name</h3>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <span class="price">$68.00</span>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <form action="#">
+                                        <input type="text" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <span class="price">$120.00</span>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <a href="#" class="closed"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-cart">
+                            <div class="one-forth">
+                                <div class="product-img" style="background-image: url(../images/item-8-a.jpg);">
+                                </div>
+                                <div class="display-tc">
+                                    <h3>Product Name</h3>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <span class="price">$68.00</span>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <span class="price">$120.00</span>
+                                </div>
+                            </div>
+                            <div class="one-eight text-center">
+                                <div class="display-tc">
+                                    <a href="#" class="closed"></a>
+                                </div>
+                            </div>
+                        </div> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="total-wrap">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <form action="#">
+                                    <div class="row form-group">
+                                        <div class="col-md-9">
+                                            <input type="text" name="quantity" class="form-control input-number" placeholder="Your Coupon Number...">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="submit" value="Apply Coupon" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-3 col-md-push-1 text-center">
+                                <div class="total">
+                                    <div class="sub">
+                                        <p><span>Subtotal:</span> <span id="subTotal">฿0.00</span></p>
+                                        <p><span>Delivery:</span> <span id="deliveryTotal">฿0.00</span></p>
+                                        <p><span>Discount:</span> <span id="discountTotal">฿0.00</span></p>
+                                    </div>
+                                    <div class="grand-total">
+                                        <p><span><strong>Total:</strong></span> <span id="grandTotal">฿0.00</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="colorlib-shop">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center colorlib-heading">
+                    <h2><span>Recommended Products</span></h2>
+                    <p>We love to tell our successful far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <div class="product-entry">
+                        <div class="product-img" style="background-image: url(../images/item-5-a.jpg);">
+                            <p class="tag"><span class="new">New</span></p>
+                            <div class="cart">
+                                <p>
+                                    <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                    <span><a href="product-detail.html"><i class="icon-eye"></i></a></span>
+                                    <span><a href="#"><i class="icon-heart3"></i></a></span>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h3><a href="shop.html">Floral Dress</a></h3>
+                            <p class="price"><span>$300.00</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="product-entry">
+                        <div class="product-img" style="background-image: url(../images/item-6-a.jpg);">
+                            <p class="tag"><span class="new">New</span></p>
+                            <div class="cart">
+                                <p>
+                                    <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                    <span><a href="product-detail.html"><i class="icon-eye"></i></a></span>
+                                    <span><a href="#"><i class="icon-heart3"></i></a></span>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h3><a href="shop.html">Floral Dress</a></h3>
+                            <p class="price"><span>$300.00</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="product-entry">
+                        <div class="product-img" style="background-image: url(../images/item-7-a.jpg);">
+                            <p class="tag"><span class="new">New</span></p>
+                            <div class="cart">
+                                <p>
+                                    <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                    <span><a href="product-detail.html"><i class="icon-eye"></i></a></span>
+                                    <span><a href="#"><i class="icon-heart3"></i></a></span>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h3><a href="shop.html">Floral Dress</a></h3>
+                            <p class="price"><span>$300.00</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="product-entry">
+                        <div class="product-img" style="background-image: url(../images/item-8-a.jpg);">
+                            <p class="tag"><span class="new">New</span></p>
+                            <div class="cart">
+                                <p>
+                                    <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                    <span><a href="product-detail.html"><i class="icon-eye"></i></a></span>
+                                    <span><a href="#"><i class="icon-heart3"></i></a></span>
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h3><a href="shop.html">Floral Dress</a></h3>
+                            <p class="price"><span>$300.00</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="colorlib-subscribe">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-6 text-center">
+                        <h2><i class="icon-paperplane"></i>Sign Up for a Newsletter</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <form class="form-inline qbstp-header-subscribe">
+                            <div class="row">
+                                <div class="col-md-12 col-md-offset-0">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="email" placeholder="Enter your email">
+                                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="colorlib-footer" role="contentinfo">
+        <div class="container">
+            <div class="row row-pb-md">
+                <div class="col-md-3 colorlib-widget">
+                    <h4>About Store</h4>
+                    <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+                    <p>
+                        <ul class="colorlib-social-icons">
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-md-2 colorlib-widget">
+                    <h4>Customer Care</h4>
+                    <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Returns/Exchange</a></li>
+                            <li><a href="#">Gift Voucher</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Special</a></li>
+                            <li><a href="#">Customer Services</a></li>
+                            <li><a href="#">Site maps</a></li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-md-2 colorlib-widget">
+                    <h4>Information</h4>
+                    <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">Order Tracking</a></li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    <h4>News</h4>
+                    <ul class="colorlib-footer-links">
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Exhibitions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>Contact Information</h4>
+                    <ul class="colorlib-footer-links">
+                        <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                        <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                        <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                        <li><a href="#">yoursite.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copy">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>
+
+                        <span class="block">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart2" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </span>
+                    <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker({
+            liveSearch: true,
+            showSubtext: true
+        });
+    });
+
+
+    //Find the input search box
+    let search = document.getElementById("searchCoin");
+    //Find every item inside the dropdown
+    let items = document.getElementsByClassName("dropdown-item");
+
+    function buildDropDown(values) {
+        let contents = []
+        for (let name of values) {
+            //alert(name.Text);
+            //contents.push('<input type="button" class="dropdown-item" type="button" value="' + name.Value + '/>')
+            $('<input type="button" class="dropdown-item" type="button" value="' + name.Value + '/>').appendTo($('#menuItems'));
+        }
+        //$('#menuItems').append(contents.join(""));
+        //alert(contents.join(""));
+        //var menuItems = document.getElementById("menuItems");
+        //menuItems.innerHTML(contents.join(""));
+        //Hide the row that shows no items were found
+        $('#empty').hide()
+
+        items = document.getElementsByClassName("dropdown-item");
+    }
+
+    //Capture the event when user types into the search box
+    window.addEventListener('input', function () {
+        //alert("test");
+
+        //alert(search.innerHTML);
+        filter(search.value.trim().toLowerCase())
+    })
+
+    //For every word entered by the user, check if the symbol starts with that word
+    //If it does show the symbol, else hide it
+    function filter(word) {
+        let length = items.length
+        let collection = []
+        let hidden = 0
+        alert(items.length);
+        for (let i = 0; i < length; i++) {
+            //alert("Find");
+            if (items[i].value.toLowerCase().startsWith(word)) {
+                $(items[i]).show()
+            }
+            else {
+                $(items[i]).hide()
+                hidden++
+            }
+        }
+
+        //If all items are hidden, show the empty view
+        if (hidden === length) {
+            $('#empty').show()
+        }
+        else {
+            $('#empty').hide()
+        }
+    }
+
+    //If the user clicks on any item, set the title of the button as the text of the item
+    $('#menuItems').on('click', '.dropdown-item', function () {
+        $('#dropdown_coins').text($(this)[0].value)
+        $("#dropdown_coins").dropdown('toggle');
+    })
+
+    var products = @Html.Raw(ViewBag.MyProducts);
+    //Loop through statesAvailable
+    //for (var i = 0; i < products.length; i++) {
+    //    //alert(products[i].Text);
+    //}
+    //buildDropDown(products)
+    function cartUnitChange(productId)
+    {
+        //alert(productId);
+        var total = window.document.getElementById("total_" + productId);
+        var units = window.document.getElementById("quantity_" + productId);
+        var p = getProductById(productId);
+        if (total != null && p!=null && units!=null)
+        {
+            //alert("result of popup is: " + value);
+            n = +(units.value) || 0;
+            //alert(n);
+            total.innerHTML = "฿" + (n * p.price);
+            sumTotal();
+            return;
+        }
+        //alert(units.value);
+        if (units.value == null || units.value.trim().length == 0 || ((units.value) || 0)<1 )
+        {
+            //alert(productId);
+            units.value = "1";
+        }
+        sumTotal();
+    }
+
+    function getElementLikeWith(id)
+    {
+        var elems = document.getElementsByTagName("*");
+        var matches = [];
+        for (var i = 0, m = elems.length; i < m; i++) {
+            if (elems[i].id && elems[i].id.indexOf(id) != -1) {
+                matches.push(elems[i]);
+                //alert(elems[i].id);
+            }
+        }
+        return matches
+    }
+
+
+    function sumTotal()
+    {
+        var cartPrices = getElementLikeWith("total_");
+        var subTotal = 0;
+        //subTotal = 0 + 1;
+        var discount = 0.00;
+        var units = window.document.getElementById("quantity_DFW0001");
+        if (units != null && units.value>1) {
+            //alert("Get discount");
+            discount = (50 * Number((units.value / 2)));
+        }
+
+        //alert(subTotal);
+        for (var i = 0; i < cartPrices.length;i++)
+        {
+            //alert(cartPrices[i].innerHTML);
+            p = +(cartPrices[i].innerHTML.substr(1, cartPrices[i].innerHTML.length-1)) || 0;
+            //alert(p);
+            subTotal = subTotal + Number(p);
+        }
+        var total = document.getElementById("subTotal");
+        var discountTotal = document.getElementById("discountTotal");
+        var grandTotal = document.getElementById("grandTotal");
+        if (total != null) {
+            total.innerHTML = "฿" + (Math.round(subTotal * 100) / 100).toFixed(2);
+        }
+
+        if (discountTotal != null)
+        {
+            discountTotal.innerHTML = "฿" + (Math.round(discount * 100) / 100).toFixed(2);
+        }
+
+        if (grandTotal != null) {
+            grandTotal.innerHTML = "฿" + (Math.round((subTotal - discount) * 100) / 100).toFixed(2);
+        }
+        //alert("total = " + subTotal);
+        return;
+    }
+
+    function getProductById(value)
+    {
+        var p = null;
+        for (var i = 0; i < products.length; i++) {
+            //alert(products[i].Text);
+            if (products[i].productId == value) {
+                p = products[i];
+                break;
+            }
+
+        }
+        return p;
+    }
+
+    function showQRPopup(url) {
+  
+        var win;
+        if (detectmob()) {
+            //alert(navigator.userAgent);
+            win = window.open(url, "mypopup", 'height=' + screen.availHeight + ',width=' + screen.availWidth + ',status=no,location=no,toolbar=no');
+        }
+            
+        else
+            win=window.open(url, "mypopup", 'height=320,width=450,status=no,location=no,toolbar=no');
+    }
+
+    function detectmob() {
+        if (navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        //var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        //return isMobile;
+    }
+
+    function getQRResult(value) {
+
+        var units = window.document.getElementById("quantity_" + value);
+        if (units != null) {
+            //alert("result of popup is: " + value);
+            value = +(units.value) || 0;
+            value++;
+            units.value = value;
+            sumTotal();
+            return true;
+        }
+        var p = getProductById(value);
+        var res = addToCart(p);
+        if (res)
+            sumTotal();
+        return res;
+    } 
+
+    function removeFromCart(productId)
+    {
+        //alert(productId);
+        $("#cartItem_" + productId).empty();
+        //$("#cartItems").remove($("#cartItem_" + productId));
+        sumTotal();
+    }
+     
+    function addToCart(product)
+    {
+        if (product == null)
+        {
+            alert("Product not found, try again");
+            return false;
+        }
+        //alert(product.Text);
+        var x = '<div id="cartItem_' + product.productId + '" class="product-cart">';
+        x += '      <div class="one-forth">';
+        //x += '      <div class="product-img" style="background-image: url(' + product.picutureUrl +');">';
+        //x += '      </div>';
+        x += '      <div class="display-tc text-left">';
+        x += '          <table><tr>';
+        x += '              <td>';
+        x += '                  <img src="' + product.picutureUrl + '" width="64" height="68" />';
+        x += '              </td>';
+        x += '              <td>';
+        x += '                  <h3>' + product.name + '</h3>';
+        if (product.productId == "DFW0001") {
+            x += '                  <h5 style="color:red;">*Buy more to get discount</h5>';
+        }
+        x += '              </td></tr>';
+        x += '          </table>';
+        //x += '          <h3>' + product.name + '</h3>';
+        x += '      </div>';
+        x += '  </div >';
+        x += '  <div class="one-eight text-center">';
+        x += '        <div class="display-tc">';
+        x += '            <span class="price">฿' + product.price +'</span>';
+        x += '        </div>';
+        x += '  </div>';
+        x += '  <div class="one-eight text-center">';
+        x += '        <div class="display-tc">';
+        x += '            <input type="number" pattern="\d+" id="quantity_' + product.productId + '" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100" onchange="cartUnitChange(\'' + product.productId + '\')">';
+        x += '        </div>';
+        x += '  </div>';
+        x += '  <div class="one-eight text-center">';
+        x += '      <div class="display-tc">';
+        x += '          <span id="total_' + product.productId + '" class="price">฿' + product.price +'</span>';
+        x += '      </div>';
+        x += '  </div>';
+        x += '  <div class="one-eight text-center">';
+        x += '      <div class="display-tc">';
+        x += '          <a href="javascript:void(0)" class="closed" onclick="removeFromCart(\'' + product.productId + '\')"></a>';
+        x += '      </div>';
+        x += '  </div>';
+        x += '</div>';
+
+        $("#cartItems").append(x);
+
+        return true;
+    }
+
+</script>
